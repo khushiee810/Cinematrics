@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMetrics • Movie Sentiment & 10-Year Rating Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Chart.js CDN for Interactive Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Moving Data Ticker Ribbon (Half Speed) -->
+    <div class="ticker-wrap">
+        <div class="ticker-content" id="tickerTrack">
+            {% for item in ticker_items %}
+            <div class="ticker-item">
+                <span class="ticker-tag">{{ item.movie_id }}</span>
+                <span class="ticker-rating">⭐ {{ item.rating }}/10</span>
+                <span class="ticker-text">"{{ item.review_text }}"</span>
+                <span class="ticker-badge badge-sentiment {{ item.color }}">{{ item.emoji }} {{ item.sentiment }}</span>
+                <span style="color: #94a3b8; font-size: 0.75rem;">${{ "{:,.1f}".format(item.box_office_earnings / 1000000) }}M</span>
+            </div>
+            {% endfor %}
+            <!-- Duplicated items for seamless continuous loop -->
+            {% for item in ticker_items %}
+            <div class="ticker-item">
+                <span class="ticker-tag">{{ item.movie_id }}</span>
+                <span class="ticker-rating">⭐ {{ item.rating }}/10</span>
+                <span class="ticker-text">"{{ item.review_text }}"</span>
+                <span class="ticker-badge badge-sentiment {{ item.color }}">{{ item.emoji }} {{ item.sentiment }}</span>
+                <span style="color: #94a3b8; font-size: 0.75rem;">${{ "{:,.1f}".format(item.box_office_earnings / 1000000) }}M</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="pulse-indicator">
+                <span class="dot-live"></span>
+                <span>REAL-TIME AUDIENCE INTELLIGENCE</span>
+            </div>
+            <h1>🎬 CineMetrics • Movie Sentiment & Rating Analytics Hub</h1>
+            <p>Real-Time Audience Sentiment & 10-Year Film Performance Intelligence ({{ stats.year_range }})</p>
+        </header>
+
+        <!-- Stats Overview Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value color-gold">{{ stats.years_count }} Years</div>
+                <div class="stat-label">Historical Span</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.total }}</div>
+                <div class="stat-label">Total Reviews Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value color-pos">{{ stats.positive }}</div>
+                <div class="stat-label">Positive Sentiment 😊</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value color-neu">{{ stats.neutral }}</div>
+                <div class="stat-label">Neutral Sentiment 😐</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value color-neg">{{ stats.negative }}</div>
+                <div class="stat-label">Negative Sentiment 😞</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value color-rate">{{ stats.avg_rating }} ⭐</div>
+                <div class="stat-label">Decade Avg Rating</div>
+            </div>
+        </div>
+
+        <!-- 1. FEATURE SEARCH: SENTIMENT & GENRE INTELLIGENCE (DISPLAYED FIRST) -->
+        <div class="card" id="featureSearchSection">
+            <div class="card-header-flex">
+                <h2>🔍 Feature Search: Sentiment & Genre Classification</h2>
+                <span class="pulse-indicator" style="font-size: 0.75rem; padding: 0.2rem 0.6rem;">
+                    <span class="dot-live"></span> DUAL SENTIMENT &amp; GENRE ENGINE
+                </span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.1rem;">
+                Enter any movie review or story prompt. The engine simultaneously evaluates <strong>audience sentiment</strong> and classifies <strong>which film genre</strong> (Action, Sci-Fi, Horror, Thriller, Comedy, Romance, Drama, Animation) the movie belongs to based on semantic context clues.
+            </p>
+            
+            <div class="analyzer-grid">
+                <div>
+                    <form id="sentimentForm">
+                        <div class="input-group">
+                            <label style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600;">
+                                Enter Movie Review / Story Prompt:
+                            </label>
+                            <textarea id="reviewInput" placeholder="Type or paste any audience feedback, plot premise, or film review to determine both its sentiment and genre..." required></textarea>
+                            
+                            <!-- Standard Sentiment Samples -->
+                            <div class="sample-prompts">
+                                <span>Sentiment Presets:</span>
+                                <button type="button" class="sample-btn" onclick="setSample('Masterpiece! A timeless classic.')">Masterpiece!</button>
+                                <button type="button" class="sample-btn" onclick="setSample('Amazing movie! Kept me hooked until the final scene.')">Amazing movie!</button>
+                                <button type="button" class="sample-btn" onclick="setSample('Good plot, strong performances, and solid pacing.')">Good plot.</button>
+                                <button type="button" class="sample-btn" onclick="setSample('Average film. Enjoyable enough for a casual watch.')">Average.</button>
+                                <button type="button" class="sample-btn" onclick="setSample('Waste of time. Disappointing sequel that lacks soul.')">Waste of time.</button>
+                            </div>
+
+                            <!-- Genre Clarity Test Prompts -->
+                            <div class="sample-prompts" style="margin-top: 0.25rem;">
+                                <span style="color: #38bdf8; font-weight: 600;">Genre Clarity Prompts 🏷️:</span>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('Mind-bending sci-fi with spaceships, time travel, and alien worlds.')">🚀 Sci-Fi</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('High-octane car chases, explosive combat, and thrilling martial arts stunts!')">💥 Action</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('Terrifying haunted house with eerie jump scares and sinister demons.')">👻 Horror</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('Hilarious jokes, laugh-out-loud humor, and witty comic timing.')">😂 Comedy</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('Intense murder mystery with psychological suspense and a shocking twist.')">🔍 Thriller</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('Heartwarming romance with tender love and undeniable chemistry.')">❤️ Romance</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('A touching emotional drama exploring heartbreak and family struggles.')">🎭 Drama</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="setSample('Whimsical animated adventure with colorful illustrations and charming voice acting.')">🎨 Animation</button>
+                            </div>
+
+                            <!-- Sarcasm Test Prompts -->
+                            <div class="sample-prompts" style="margin-top: 0.25rem;">
+                                <span style="color: #f472b6; font-weight: 600;">Sarcasm Tests 🙃:</span>
+                                <button type="button" class="sample-btn" style="border-color: rgba(244, 114, 182, 0.4); color: #f472b6;" onclick="setSample('Oh great, another two hours of my life I will never get back.')">"Oh great, another two hours..."</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(244, 114, 182, 0.4); color: #f472b6;" onclick="setSample('Brilliant movie, if you have no brain cells left.')">"Brilliant, if you have no brain..."</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(244, 114, 182, 0.4); color: #f472b6;" onclick="setSample('I just loved sitting in the dark for 3 hours being utterly bored.')">"Loved being bored for 3 hours..."</button>
+                            </div>
+
+                            <!-- Movie ID Search / Lookup Presets -->
+                            <div class="sample-prompts" style="margin-top: 0.25rem;">
+                                <span style="color: #fbbf24; font-weight: 600;">Movie ID Lookups 🎬:</span>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2024_01')">🎬 M2024_01 (Action)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2024_02')">🎬 M2024_02 (Drama)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2023_01')">🎬 M2023_01 (Romance)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2018_02')">🎬 M2018_02 (Sci-Fi)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2024_03')">🎬 M2024_03 (Thriller)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2016_04')">🎬 M2016_04 (Comedy)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2017_02')">🎬 M2017_02 (Horror)</button>
+                                <button type="button" class="sample-btn" style="border-color: rgba(251, 191, 36, 0.4); color: #fbbf24;" onclick="lookupMovieId('M2017_04')">🎬 M2017_04 (Animation)</button>
+                            </div>
+
+                            <button type="submit" class="btn-primary" id="analyzeBtn" style="margin-top: 0.6rem;">Analyze Sentiment &amp; Detect Genre / Movie ID</button>
+                        </div>
+                    </form>
+
+                    <!-- Feature Keyword Search across Movie Archive -->
+                    <div class="search-box-wrap">
+                        <label style="font-size: 0.88rem; color: var(--text-secondary); font-weight: 600; display: block; margin-bottom: 0.4rem;">
+                            Search 10-Year Archive by Movie ID, Genre, Keyword, Title, or Year:
+                        </label>
+                        
+                        <!-- Genre Filter Buttons for Search -->
+                        <div class="sample-prompts" style="margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.78rem;">Quick Genre Filter:</span>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('')">All</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Action')">💥 Action</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Sci-Fi')">🚀 Sci-Fi</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Drama')">🎭 Drama</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Thriller')">🔍 Thriller</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Comedy')">😂 Comedy</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Romance')">❤️ Romance</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Horror')">👻 Horror</button>
+                            <button type="button" class="sample-btn" onclick="quickFilterGenre('Animation')">🎨 Animation</button>
+                        </div>
+
+                        <span class="search-icon-pos">🔍</span>
+                        <input 
+                            type="text" 
+                            id="featureSearchInput" 
+                            class="search-input" 
+                            placeholder="Type Movie ID (e.g. M2024_01) or keyword/genre to filter archive..." 
+                            oninput="handleFeatureSearch(this.value)">
+                        <div id="searchResultCount" style="font-size: 0.8rem; color: var(--accent-blue); margin-top: 0.4rem;"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="resultContainer" class="result-box" style="display: none; height: 100%;">
+                        
+                        <!-- VIEW 1: MOVIE ID DEEP-DIVE ANALYSIS VIEW -->
+                        <div id="movieAnalysisView" style="display: none;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.65rem; margin-bottom: 0.85rem;">
+                                <div>
+                                    <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">🎬 Movie ID Intelligence Report</span>
+                                    <div style="font-size: 1.4rem; font-weight: 800; color: #fbbf24; display: flex; align-items: center; gap: 0.45rem; margin-top: 0.15rem;">
+                                        <span id="mIdVal">M2024_01</span>
+                                        <span id="mGenreBadge" style="font-size: 0.8rem; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #38bdf8; padding: 0.15rem 0.5rem; border-radius: 999px;">Action</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="font-size: 0.72rem; color: #94a3b8;">Release Year</span>
+                                    <div id="mYearVal" style="font-size: 1.15rem; font-weight: 700; color: #f8fafc;">2024</div>
+                                </div>
+                            </div>
+
+                            <!-- Key Metrics Grid for Movie ID -->
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 0.85rem;">
+                                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; text-align: center;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase;">Available Reviews</div>
+                                    <div id="mReviewCount" style="font-size: 1.15rem; font-weight: 800; color: #38bdf8;">4 Reviews</div>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; text-align: center;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase;">Avg Rating</div>
+                                    <div id="mAvgRating" style="font-size: 1.15rem; font-weight: 800; color: #fbbf24;">8.5 ⭐</div>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; text-align: center;">
+                                    <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase;">Box Office</div>
+                                    <div id="mBoxOffice" style="font-size: 1.15rem; font-weight: 800; color: #10b981;">$35.2M</div>
+                                </div>
+                            </div>
+
+                            <!-- Sentiment Consensus Card -->
+                            <div style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 0.65rem 0.85rem; margin-bottom: 0.85rem; border: 1px solid var(--border-color);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                                    <span style="font-size: 0.82rem; color: #cbd5e1;">Sentiment Consensus:</span>
+                                    <span id="mDominantSentiment" class="badge-sentiment">Positive 😊</span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; font-size: 0.76rem;">
+                                    <span style="color: #10b981;" id="mPosReviews">3 Positive</span> • 
+                                    <span style="color: #f59e0b;" id="mNeuReviews">1 Neutral</span> • 
+                                    <span style="color: #ef4444;" id="mNegReviews">0 Negative</span>
+                                </div>
+                            </div>
+
+                            <!-- List of All Available Reviews for this Movie -->
+                            <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 600; margin-bottom: 0.4rem; text-transform: uppercase;">
+                                All Reviews for this Movie (<span id="mListCount">4</span>):
+                            </div>
+                            <div id="mReviewsList" style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem; padding-right: 0.2rem;">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+
+                        <!-- VIEW 2: STANDARD REVIEW SENTIMENT & GENRE VIEW -->
+                        <div id="reviewAnalysisView">
+                            <!-- 1. Detected Film Genre Box -->
+                            <div id="genreResultBox" style="background: rgba(56, 189, 248, 0.12); border: 1px solid #38bdf8; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 0.85rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; align-items: center; gap: 0.45rem; font-size: 1.15rem; font-weight: 700;">
+                                        <span id="resGenreEmoji">🎬</span>
+                                        <span style="color: #f8fafc;">Detected Genre: <strong id="resGenre" style="color: #38bdf8;">General</strong></span>
+                                    </div>
+                                    <span id="resGenreConf" style="font-size: 0.78rem; background: #0f172a; padding: 0.2rem 0.6rem; border-radius: 999px; color: #38bdf8; font-weight: 600; border: 1px solid #38bdf8;">95% Confidence</span>
+                                </div>
+                                <div style="margin-top: 0.35rem; font-size: 0.82rem; color: #94a3b8;">
+                                    Key Genre Clues: <span id="resGenreClues" style="color: #f1f5f9; font-weight: 500;">General film tone</span>
+                                </div>
+                            </div>
+
+                            <!-- 2. Sentiment Classification Header -->
+                            <div class="result-header">
+                                <div class="sentiment-badge">
+                                    <span id="resEmoji"></span>
+                                    <span id="resSentiment"></span>
+                                </div>
+                                <div class="score-text">
+                                    Polarity Score: <strong id="resCompound">0.0</strong>
+                                </div>
+                            </div>
+
+                            <!-- 3. Sarcasm Warning Banner -->
+                            <div id="sarcasmNotice" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 8px; padding: 0.65rem 0.85rem; margin-bottom: 0.85rem; font-size: 0.84rem; color: #fca5a5;">
+                                <strong>🙃 Sarcasm / Irony Detected:</strong>
+                                <div id="sarcasmReasonText" style="margin-top: 0.2rem; color: #fecaca;"></div>
+                            </div>
+
+                            <!-- 4. Component Breakdown -->
+                            <div class="scores-breakdown">
+                                <div class="score-item">
+                                    Positive Component
+                                    <span class="color-pos" id="resPos">0%</span>
+                                </div>
+                                <div class="score-item">
+                                    Neutral Component
+                                    <span class="color-neu" id="resNeu">0%</span>
+                                </div>
+                                <div class="score-item">
+                                    Negative Component
+                                    <span class="color-neg" id="resNeg">0%</span>
+                                </div>
+                            </div>
+
+                            <!-- 5. Linked Archive Movie Banner -->
+                            <div id="matchedArchiveMovieBanner" style="display: none; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; padding: 0.65rem 0.85rem; margin-top: 0.85rem; font-size: 0.84rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                                    <div>
+                                        <span style="color: #94a3b8;">Linked Archive Movie:</span>
+                                        <strong id="matchedMovieTitle" style="color: #fbbf24; margin-left: 0.3rem;">M2024_01</strong>
+                                        <span id="matchedMovieExtra" style="color: #94a3b8; font-size: 0.78rem; margin-left: 0.4rem;"></span>
+                                    </div>
+                                    <button type="button" id="matchedMovieBtn" class="sample-btn" style="font-size: 0.75rem; border-color: #38bdf8; color: #38bdf8; font-weight: 600;">View Movie Intelligence &rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="placeholderBox" style="border: 2px dashed var(--border-color); border-radius: 10px; height: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-align: center; padding: 1.5rem;">
+                        Enter a prompt, click a genre preset, or enter a Movie ID (e.g. M2024_01) to view complete sentiment and film metrics.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 10-YEAR MOVIE DATABASE ARCHIVE (LOCATED DIRECTLY BELOW FEATURE & GENRE SEARCH) -->
+        <div class="card" id="archiveTableSection">
+            <div class="table-filter-bar">
+                <h2>📋 Decade Film Archive ({{ dataset|length }} Reviews)</h2>
+                <div class="filter-btn-group">
+                    <button class="filter-btn active" onclick="filterTable('all', this)">All</button>
+                    <button class="filter-btn" onclick="filterTable('Positive', this)">Positive</button>
+                    <button class="filter-btn" onclick="filterTable('Neutral', this)">Neutral</button>
+                    <button class="filter-btn" onclick="filterTable('Negative', this)">Negative</button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="reviewsTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Year</th>
+                            <th>Movie ID</th>
+                            <th>User ID</th>
+                            <th>Rating</th>
+                            <th>Review Text</th>
+                            <th>Genre</th>
+                            <th>Box Office</th>
+                            <th>Sentiment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in dataset %}
+                        <tr data-sentiment="{{ row.sentiment }}" data-year="{{ row.release_year }}" data-movie-id="{{ row.movie_id }}" data-genre="{{ row.genre }}">
+                            <td>{{ row.review_id }}</td>
+                            <td><strong style="color: #fbbf24;">{{ row.release_year }}</strong></td>
+                            <td><a href="javascript:void(0)" onclick="lookupMovieId('{{ row.movie_id }}')" title="Analyze movie {{ row.movie_id }}" style="color: #38bdf8; text-decoration: underline; font-weight: 600; cursor: pointer;">{{ row.movie_id }} 🔍</a></td>
+                            <td>{{ row.user_id }}</td>
+                            <td>⭐ {{ row.rating }}/10</td>
+                            <td>{{ row.review_text }}</td>
+                            <td>{{ row.genre }}</td>
+                            <td>${{ "{:,.1f}".format(row.box_office_earnings / 1000000) }}M</td>
+                            <td>
+                                <span class="badge-sentiment {{ row.color }}">
+                                    {{ row.emoji }} {{ row.sentiment }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. 10-YEAR MOVIE RATING & BOX OFFICE GRAPHS -->
+        <div class="charts-grid">
+            <!-- Graph 1: 10-Year Average Rating Trend -->
+            <div class="card">
+                <div class="card-header-flex">
+                    <h2>📈 10-Year Movie Rating & Box Office Trend</h2>
+                    <div class="filter-btn-group">
+                        <button class="filter-btn active" onclick="setChartFilter('all', this)">All 10 Years</button>
+                        <button class="filter-btn" onclick="setChartFilter('recent', this)">Recent 5 Years</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="ratingsTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Graph 2: 10-Year Annual Sentiment Composition -->
+            <div class="card">
+                <div class="card-header-flex">
+                    <h2>🎭 Annual Sentiment Breakdown</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="sentimentBarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 10-YEAR TIMELINE PLAYER (MOVING DATA FEATURE) -->
+        <div class="timeline-card">
+            <div class="timeline-header">
+                <h3>🎞️ 10-Year Cinema Timeline Evolution</h3>
+                <div class="timeline-controls">
+                    <button class="play-btn" id="playTimelineBtn" onclick="toggleTimelinePlay()">
+                        <span id="playIcon">▶</span> <span id="playText">Play 10-Year Evolution</span>
+                    </button>
+                    <button class="sample-btn" onclick="resetTimeline()">⏮ Reset</button>
+                </div>
+            </div>
+
+            <!-- Interactive Year Chips -->
+            <div class="year-chips" id="yearChips">
+                <!-- Dynamically generated from JS -->
+            </div>
+
+            <!-- Dynamic Year Metrics Display -->
+            <div class="timeline-display">
+                <div>
+                    <div class="timeline-metric-title">Active Release Year</div>
+                    <div class="timeline-metric-val color-gold" id="dispYear">2015</div>
+                </div>
+                <div>
+                    <div class="timeline-metric-title">Average Audience Rating</div>
+                    <div class="timeline-metric-val color-rate" id="dispRating">7.8 / 10 ⭐</div>
+                </div>
+                <div>
+                    <div class="timeline-metric-title">Average Box Office</div>
+                    <div class="timeline-metric-val color-pos" id="dispBoxOffice">$18.5M</div>
+                </div>
+                <div>
+                    <div class="timeline-metric-title">Sentiment Consensus</div>
+                    <div class="timeline-metric-val" id="dispSentiment">😊 75% Positive</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. GENRE RATINGS & MOVING LIVE STREAM -->
+        <div class="charts-grid">
+            <!-- Graph 3: Genre Performance -->
+            <div class="card">
+                <div class="card-header-flex">
+                    <h2>🏆 Decade Genre Ratings Performance</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="genreChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Moving Live Stream Feed -->
+            <div class="card">
+                <div class="card-header-flex">
+                    <h2>📡 Live Audience Stream</h2>
+                    <span class="pulse-indicator" style="font-size: 0.72rem; padding: 0.15rem 0.5rem;">
+                        <span class="dot-live"></span> STREAMING
+                    </span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.8rem;">
+                    Simulating real-time incoming audience reviews across film screenings:
+                </p>
+                <div class="stream-card" id="liveStreamFeed">
+                    <!-- Populated by dynamic stream animation in JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. METHODOLOGY GUIDE -->
+        <div class="card">
+            <h2>🎯 Sentiment Scoring & Rating Calibration</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 0.8rem;">
+                Audience reactions are evaluated via natural language polarity scoring, mapping contextual sentiment directly to numerical reception:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 1rem;">
+                    <strong style="color: #34d399;">Positive Classification (&ge; +0.05)</strong>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                        High praise, enthusiasm, exceptional craftsmanship (e.g. <em>"Masterpiece!"</em> &rarr; +0.66). Corresponds to 8-10 ratings.
+                    </p>
+                </div>
+                <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 1rem;">
+                    <strong style="color: #fbbf24;">Neutral Classification (-0.05 to +0.05)</strong>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                        Balanced, mild, or factual impressions (e.g. <em>"Average film."</em> &rarr; 0.00). Corresponds to 6-7 ratings.
+                    </p>
+                </div>
+                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 1rem;">
+                    <strong style="color: #f87171;">Negative Classification (&le; -0.05)</strong>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                        Criticism, dissatisfaction, poor pacing (e.g. <em>"Waste of time."</em> &rarr; -0.42). Corresponds to 1-5 ratings.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© CineMetrics Analytics • Real-Time Movie Intelligence Platform</p>
+        </footer>
+    </div>
+
+    <!-- Application JavaScript -->
+    <script>
+        // Parse backend JSON data for 10-year graphs
+        const chartsData = {{ charts_data_json | safe }};
+
+        // --- GRAPH 1: 10-Year Rating & Box Office Trend ---
+        const ratingsCtx = document.getElementById('ratingsTrendChart').getContext('2d');
+        
+        const ratingGradient = ratingsCtx.createLinearGradient(0, 0, 0, 300);
+        ratingGradient.addColorStop(0, 'rgba(56, 189, 248, 0.4)');
+        ratingGradient.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+        const ratingsChart = new Chart(ratingsCtx, {
+            type: 'line',
+            data: {
+                labels: chartsData.yearly.years,
+                datasets: [
+                    {
+                        label: 'Average Movie Rating (1 - 10)',
+                        data: chartsData.yearly.ratings,
+                        borderColor: '#38bdf8',
+                        backgroundColor: ratingGradient,
+                        fill: true,
+                        tension: 0.35,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#38bdf8',
+                        pointBorderColor: '#ffffff',
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Avg Box Office ($ Millions)',
+                        data: chartsData.yearly.box_office,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                        fill: false,
+                        tension: 0.35,
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointBackgroundColor: '#10b981',
+                        pointRadius: 4,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8', font: { size: 12 } }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleColor: '#f8fafc',
+                        bodyColor: '#cbd5e1',
+                        borderColor: '#334155',
+                        borderWidth: 1,
+                        padding: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#1f293d' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        min: 4,
+                        max: 10,
+                        grid: { color: '#1f293d' },
+                        ticks: { color: '#38bdf8' },
+                        title: { display: true, text: 'Audience Rating ⭐', color: '#38bdf8' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        min: 0,
+                        grid: { drawOnChartArea: false },
+                        ticks: { color: '#10b981' },
+                        title: { display: true, text: 'Box Office ($M)', color: '#10b981' }
+                    }
+                }
+            }
+        });
+
+        // Filter button for Chart 1
+        function setChartFilter(mode, btn) {
+            document.querySelectorAll('.filter-btn-group .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (mode === 'recent') {
+                ratingsChart.data.labels = chartsData.yearly.years.slice(5);
+                ratingsChart.data.datasets[0].data = chartsData.yearly.ratings.slice(5);
+                ratingsChart.data.datasets[1].data = chartsData.yearly.box_office.slice(5);
+            } else {
+                ratingsChart.data.labels = chartsData.yearly.years;
+                ratingsChart.data.datasets[0].data = chartsData.yearly.ratings;
+                ratingsChart.data.datasets[1].data = chartsData.yearly.box_office;
+            }
+            ratingsChart.update();
+        }
+
+        // --- GRAPH 2: 10-Year Sentiment Composition ---
+        const sentimentCtx = document.getElementById('sentimentBarChart').getContext('2d');
+        const sentimentChart = new Chart(sentimentCtx, {
+            type: 'bar',
+            data: {
+                labels: chartsData.yearly.years,
+                datasets: [
+                    {
+                        label: 'Positive 😊',
+                        data: chartsData.yearly.positive,
+                        backgroundColor: '#10b981'
+                    },
+                    {
+                        label: 'Neutral 😐',
+                        data: chartsData.yearly.neutral,
+                        backgroundColor: '#f59e0b'
+                    },
+                    {
+                        label: 'Negative 😞',
+                        data: chartsData.yearly.negative,
+                        backgroundColor: '#ef4444'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#94a3b8' } }
+                },
+                scales: {
+                    x: { stacked: true, grid: { color: '#1f293d' }, ticks: { color: '#94a3b8' } },
+                    y: { stacked: true, grid: { color: '#1f293d' }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // --- GRAPH 3: Genre Performance Across the Decade ---
+        const genreCtx = document.getElementById('genreChart').getContext('2d');
+        const genreChart = new Chart(genreCtx, {
+            type: 'bar',
+            data: {
+                labels: chartsData.genre.genres,
+                datasets: [
+                    {
+                        label: 'Decade Avg Rating ⭐',
+                        data: chartsData.genre.ratings,
+                        backgroundColor: [
+                            'rgba(56, 189, 248, 0.75)',
+                            'rgba(168, 85, 247, 0.75)',
+                            'rgba(244, 114, 182, 0.75)',
+                            'rgba(52, 211, 153, 0.75)',
+                            'rgba(251, 191, 36, 0.75)',
+                            'rgba(99, 102, 241, 0.75)',
+                            'rgba(239, 68, 68, 0.75)',
+                            'rgba(14, 165, 233, 0.75)'
+                        ],
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { min: 4, max: 10, grid: { color: '#1f293d' }, ticks: { color: '#94a3b8' } },
+                    y: { grid: { color: '#1f293d' }, ticks: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        // --- 10-YEAR TIMELINE ANIMATION (MOVING DATA FEATURE) ---
+        const yearsList = chartsData.yearly.years;
+        let currentYearIdx = 0;
+        let timelineTimer = null;
+
+        const chipsContainer = document.getElementById('yearChips');
+        yearsList.forEach((yr, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'year-chip' + (idx === 0 ? ' active' : '');
+            btn.textContent = yr;
+            btn.onclick = () => selectYear(idx);
+            chipsContainer.appendChild(btn);
+        });
+
+        function selectYear(idx) {
+            currentYearIdx = idx;
+            document.querySelectorAll('.year-chip').forEach((c, i) => {
+                c.classList.toggle('active', i === idx);
+            });
+
+            const yr = yearsList[idx];
+            const rating = chartsData.yearly.ratings[idx];
+            const bo = chartsData.yearly.box_office[idx];
+            const pos = chartsData.yearly.positive[idx];
+            const neu = chartsData.yearly.neutral[idx];
+            const neg = chartsData.yearly.negative[idx];
+            const total = pos + neu + neg;
+            const posPct = total > 0 ? Math.round((pos / total) * 100) : 0;
+
+            document.getElementById('dispYear').textContent = yr;
+            document.getElementById('dispRating').textContent = rating + ' / 10 ⭐';
+            document.getElementById('dispBoxOffice').textContent = '$' + bo + 'M';
+            document.getElementById('dispSentiment').textContent = `😊 ${posPct}% Positive`;
+
+            // Highlight point on rating chart
+            ratingsChart.setActiveElements([{ datasetIndex: 0, index: idx }]);
+            ratingsChart.tooltip.setActiveElements([{ datasetIndex: 0, index: idx }], { x: 0, y: 0 });
+            ratingsChart.update();
+        }
+
+        function toggleTimelinePlay() {
+            if (timelineTimer) {
+                clearInterval(timelineTimer);
+                timelineTimer = null;
+                document.getElementById('playIcon').textContent = '▶';
+                document.getElementById('playText').textContent = 'Play 10-Year Evolution';
+            } else {
+                document.getElementById('playIcon').textContent = '⏸';
+                document.getElementById('playText').textContent = 'Pause Timeline';
+                timelineTimer = setInterval(() => {
+                    currentYearIdx = (currentYearIdx + 1) % yearsList.length;
+                    selectYear(currentYearIdx);
+                }, 3600);
+            }
+        }
+
+        function resetTimeline() {
+            if (timelineTimer) toggleTimelinePlay();
+            selectYear(0);
+        }
+
+        // Initialize with first year
+        selectYear(0);
+
+        // --- MOVING LIVE STREAM SIMULATION (ALIGNED TO REAL ARCHIVE DATA) ---
+        const streamItems = [
+            { id: 'M2024_01', genre: 'Action', text: 'High-octane car chases, explosive combat, and thrilling martial arts stunts!', rating: '9/10', sentiment: 'Positive', emoji: '😊', color: 'success' },
+            { id: 'M2023_01', genre: 'Romance', text: 'Heartwarming romance with tender love and undeniable chemistry.', rating: '9/10', sentiment: 'Positive', emoji: '😊', color: 'success' },
+            { id: 'M2018_02', genre: 'Sci-Fi', text: 'Mind-bending sci-fi with spaceships, time travel, and alien worlds.', rating: '10/10', sentiment: 'Positive', emoji: '😊', color: 'success' },
+            { id: 'M2017_02', genre: 'Horror', text: 'Terrifying haunted house with eerie jump scares and sinister demons.', rating: '8/10', sentiment: 'Positive', emoji: '😊', color: 'success' },
+            { id: 'M2024_03', genre: 'Thriller', text: 'Intense murder mystery with psychological suspense and a shocking twist.', rating: '9/10', sentiment: 'Positive', emoji: '😊', color: 'success' }
+        ];
+
+        let streamIdx = 0;
+        function updateLiveStream() {
+            const feed = document.getElementById('liveStreamFeed');
+            const item = streamItems[streamIdx];
+            streamIdx = (streamIdx + 1) % streamItems.length;
+
+            const elem = document.createElement('div');
+            elem.className = 'stream-item';
+            elem.innerHTML = `
+                <div class="stream-item-top">
+                    <a href="javascript:void(0)" onclick="lookupMovieId('${item.id}')" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">${item.id} • ${item.genre} 🔍</a>
+                    <span class="badge-sentiment ${item.color}">${item.emoji} ${item.sentiment}</span>
+                </div>
+                <div style="font-size: 0.88rem; color: #f1f5f9; margin-bottom: 0.3rem;">"${item.text}"</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; display: flex; justify-content: space-between;">
+                    <span>⭐ ${item.rating}</span>
+                    <span style="color: #10b981;">Incoming Just Now</span>
+                </div>
+            `;
+
+            feed.insertBefore(elem, feed.firstChild);
+            if (feed.children.length > 3) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        updateLiveStream();
+        updateLiveStream();
+        setInterval(updateLiveStream, 8000);
+
+        // --- SYNCHRONIZED ARCHIVE FILTERING & ALIGNMENT ---
+        function filterArchiveByMovieId(movieId) {
+            const cleanId = movieId.toUpperCase().trim();
+            const rows = document.querySelectorAll('#reviewsTable tbody tr');
+            let matchCount = 0;
+
+            rows.forEach(row => {
+                const rowMid = (row.getAttribute('data-movie-id') || row.children[2].innerText).toUpperCase().trim();
+                if (rowMid.includes(cleanId)) {
+                    row.style.display = '';
+                    matchCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const countDisplay = document.getElementById('searchResultCount');
+            if (countDisplay) {
+                countDisplay.innerHTML = `✓ Showing all <strong>${matchCount}</strong> reviews for Movie ID <strong style="color: #fbbf24;">${cleanId}</strong> in archive below. <button type="button" onclick="resetArchiveFilter()" class="sample-btn" style="margin-left: 0.5rem; font-size: 0.75rem; border-color: #38bdf8; color: #38bdf8;">Show All Archive (${rows.length})</button>`;
+            }
+        }
+
+        function resetArchiveFilter() {
+            const input = document.getElementById('featureSearchInput');
+            if (input) input.value = '';
+            const countDisplay = document.getElementById('searchResultCount');
+            if (countDisplay) countDisplay.textContent = '';
+            
+            const rows = document.querySelectorAll('#reviewsTable tbody tr');
+            rows.forEach(row => row.style.display = '');
+
+            document.querySelectorAll('.filter-btn-group .filter-btn').forEach(b => b.classList.remove('active'));
+            const allBtn = document.querySelector('.filter-btn-group .filter-btn');
+            if (allBtn) allBtn.classList.add('active');
+        }
+
+        // --- SENTIMENT ANALYZER & MOVIE ID HANDLERS ---
+        function setSample(text) {
+            document.getElementById('reviewInput').value = text;
+            analyzeSentimentAsync(text);
+        }
+
+        function lookupMovieId(movieId) {
+            const cleanId = movieId.trim().toUpperCase();
+            document.getElementById('reviewInput').value = cleanId;
+            const searchInput = document.getElementById('featureSearchInput');
+            if (searchInput) searchInput.value = cleanId;
+
+            // 1. Fetch complete intelligence report for this movie (genre, rating, consensus, etc.)
+            analyzeSentimentAsync(cleanId, false);
+
+            // 2. Align archive table immediately to this exact movie
+            filterArchiveByMovieId(cleanId);
+
+            const target = document.getElementById('featureSearchSection');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        const form = document.getElementById('sentimentForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = document.getElementById('reviewInput').value.trim();
+            if (text) analyzeSentimentAsync(text);
+        });
+
+        function analyzeSentimentAsync(text, syncArchive = true) {
+            const btn = document.getElementById('analyzeBtn');
+            btn.textContent = 'Analyzing...';
+            btn.disabled = true;
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ review_text: text })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('placeholderBox').style.display = 'none';
+                const container = document.getElementById('resultContainer');
+                container.style.display = 'block';
+
+                if (data.is_movie_id && data.movie_data) {
+                    // --- CASE 1: MOVIE ID DEEP-DIVE ANALYSIS ---
+                    const m = data.movie_data;
+                    container.className = 'result-box ' + (m.dominant_color || 'info');
+                    
+                    document.getElementById('movieAnalysisView').style.display = 'block';
+                    document.getElementById('reviewAnalysisView').style.display = 'none';
+
+                    // Fill Movie ID header & badges
+                    document.getElementById('mIdVal').textContent = m.movie_id;
+                    document.getElementById('mGenreBadge').textContent = (m.genre_emoji || '🎬') + ' ' + m.genre;
+                    document.getElementById('mYearVal').textContent = m.release_year;
+
+                    // Fill Key Metrics
+                    document.getElementById('mReviewCount').textContent = m.total_reviews + ' Reviews';
+                    document.getElementById('mAvgRating').textContent = m.avg_rating + ' ⭐';
+                    document.getElementById('mBoxOffice').textContent = m.box_office_formatted;
+
+                    // Fill Dominant Sentiment & Breakdown
+                    const mDom = document.getElementById('mDominantSentiment');
+                    mDom.className = 'badge-sentiment ' + m.dominant_color;
+                    mDom.textContent = m.dominant_emoji + ' ' + m.dominant_sentiment;
+
+                    document.getElementById('mPosReviews').textContent = `${m.pos_count} Positive (${m.pos_pct}%)`;
+                    document.getElementById('mNeuReviews').textContent = `${m.neu_count} Neutral (${m.neu_pct}%)`;
+                    document.getElementById('mNegReviews').textContent = `${m.neg_count} Negative (${m.neg_pct}%)`;
+
+                    // Populate Reviews List
+                    document.getElementById('mListCount').textContent = m.reviews.length;
+                    const reviewsContainer = document.getElementById('mReviewsList');
+                    reviewsContainer.innerHTML = '';
+                    m.reviews.forEach(r => {
+                        const item = document.createElement('div');
+                        item.style.cssText = 'background: rgba(15, 23, 42, 0.65); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem 0.65rem; font-size: 0.8rem;';
+                        item.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                                <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 600;">${r.review_id} • User ${r.user_id}</span>
+                                <span class="badge-sentiment ${r.color}" style="font-size: 0.72rem; padding: 0.1rem 0.45rem;">${r.emoji} ${r.rating}⭐ ${r.badge_label || r.sentiment}</span>
+                            </div>
+                            <div style="color: #f1f5f9; line-height: 1.35;">"${r.review_text}"</div>
+                            ${r.is_sarcastic ? '<div style="color: #f87171; font-size: 0.72rem; margin-top: 0.2rem;">🙃 Sarcastic tone detected</div>' : ''}
+                        `;
+                        reviewsContainer.appendChild(item);
+                    });
+
+                    // Synchronize the Archive Table below to this EXACT same movie ID!
+                    if (syncArchive) {
+                        const searchInput = document.getElementById('featureSearchInput');
+                        if (searchInput) searchInput.value = m.movie_id;
+                        filterArchiveByMovieId(m.movie_id);
+                    }
+
+                } else {
+                    // --- CASE 2: REGULAR PROMPT / REVIEW SENTIMENT & GENRE ---
+                    container.className = 'result-box ' + data.color;
+                    document.getElementById('movieAnalysisView').style.display = 'none';
+                    document.getElementById('reviewAnalysisView').style.display = 'block';
+
+                    // Update Genre Classification
+                    document.getElementById('resGenreEmoji').textContent = data.genre_emoji || '🎬';
+                    document.getElementById('resGenre').textContent = data.genre_detected || 'General';
+                    document.getElementById('resGenreConf').textContent = (data.genre_confidence || '90%') + ' Match';
+                    const cluesText = (data.genre_clues && data.genre_clues.length > 0) 
+                        ? data.genre_clues.map(c => `"${c}"`).join(', ') 
+                        : 'Contextual film premise';
+                    document.getElementById('resGenreClues').textContent = cluesText;
+
+                    // Update Sentiment
+                    document.getElementById('resEmoji').textContent = data.emoji;
+                    document.getElementById('resSentiment').textContent = data.badge_label || data.sentiment;
+                    document.getElementById('resCompound').textContent = data.compound;
+                    document.getElementById('resPos').textContent = data.pos + '%';
+                    document.getElementById('resNeu').textContent = data.neu + '%';
+                    document.getElementById('resNeg').textContent = data.neg + '%';
+
+                    const sarcasmElem = document.getElementById('sarcasmNotice');
+                    if (data.is_sarcastic) {
+                        sarcasmElem.style.display = 'block';
+                        document.getElementById('sarcasmReasonText').textContent = data.explanation;
+                    } else {
+                        sarcasmElem.style.display = 'none';
+                    }
+
+                    // Check if review matched an existing archive movie
+                    const linkedBanner = document.getElementById('matchedArchiveMovieBanner');
+                    if (data.matched_movie_id) {
+                        linkedBanner.style.display = 'block';
+                        document.getElementById('matchedMovieTitle').textContent = data.matched_movie_id;
+                        document.getElementById('matchedMovieExtra').textContent = `(${data.matched_movie_genre}, ⭐${data.matched_movie_rating}/10, Year ${data.matched_movie_year})`;
+                        document.getElementById('matchedMovieBtn').onclick = () => lookupMovieId(data.matched_movie_id);
+
+                        // Automatically filter table to this matched movie in archive below!
+                        if (syncArchive) {
+                            filterArchiveByMovieId(data.matched_movie_id);
+                        }
+                    } else {
+                        linkedBanner.style.display = 'none';
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Error analyzing sentiment:", err);
+            })
+            .finally(() => {
+                btn.textContent = 'Analyze Sentiment & Detect Genre / Movie ID';
+                btn.disabled = false;
+            });
+        }
+
+        // Quick filter by genre button
+        function quickFilterGenre(genre) {
+            const input = document.getElementById('featureSearchInput');
+            input.value = genre;
+            handleFeatureSearch(genre);
+            const tbl = document.getElementById('archiveTableSection');
+            if (tbl) {
+                tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // --- FEATURE SEARCH FILTER FUNCTION ---
+        function handleFeatureSearch(query) {
+            const term = query.toLowerCase().trim();
+            const rows = document.querySelectorAll('#reviewsTable tbody tr');
+            let matchCount = 0;
+
+            // Check if query is a Movie ID pattern (e.g. M2024_01 or M2023_02)
+            const isMovieId = /^m\d{4}(_\d{2})?$/i.test(term) || /^m\d+$/i.test(term);
+
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const rowMid = (row.getAttribute('data-movie-id') || '').toLowerCase().trim();
+                const isMatch = isMovieId ? (rowMid === term) : (!term || text.includes(term));
+                if (isMatch) {
+                    row.style.display = '';
+                    matchCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const countDisplay = document.getElementById('searchResultCount');
+            if (term) {
+                countDisplay.innerHTML = `✓ Found <strong>${matchCount}</strong> matching movie reviews in archive below. <button type="button" onclick="resetArchiveFilter()" class="sample-btn" style="margin-left: 0.5rem; font-size: 0.75rem; border-color: #38bdf8; color: #38bdf8;">Show All (${rows.length})</button>`;
+            } else {
+                countDisplay.textContent = '';
+            }
+
+            // If user typed a Movie ID into archive search, automatically align top intelligence report!
+            if (isMovieId && matchCount > 0) {
+                document.getElementById('reviewInput').value = query.trim().toUpperCase();
+                analyzeSentimentAsync(query.trim().toUpperCase(), false);
+            }
+        }
+
+        // --- ARCHIVE TABLE SENTIMENT FILTER BUTTONS ---
+        function filterTable(sentiment, btn) {
+            document.querySelectorAll('.filter-btn-group .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Clear feature search input when clicking filter buttons
+            document.getElementById('featureSearchInput').value = '';
+            document.getElementById('searchResultCount').textContent = '';
+
+            const rows = document.querySelectorAll('#reviewsTable tbody tr');
+            rows.forEach(row => {
+                if (sentiment === 'all' || row.getAttribute('data-sentiment') === sentiment) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

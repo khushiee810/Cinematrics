@@ -1,0 +1,201 @@
+review_id,movie_id,user_id,rating,review_text,genre,release_year,box_office_earnings
+1,M2015_01,U001,9,Heartwarming romance with tender love and undeniable chemistry.,Romance,2015,13540975
+2,M2015_01,U002,8,Charming performances and gorgeous Italian scenery.,Romance,2015,13540975
+3,M2015_01,U003,7,"Decent romantic watch, though slightly predictable ending.",Romance,2015,13540975
+4,M2015_01,U004,5,Waste of time. Disappointing love story that lacks soul.,Romance,2015,13540975
+5,M2015_02,U005,9,Whimsical animated adventure with colorful illustrations and charming voice acting.,Animation,2015,21433478
+6,M2015_02,U006,8,Fun family entertainment with a heartwarming message.,Animation,2015,21433478
+7,M2015_02,U007,8,Stunning CGI visuals and memorable music.,Animation,2015,21433478
+8,M2015_02,U008,7,Enjoyable animation for kids and adults alike.,Animation,2015,21433478
+9,M2015_03,U009,10,Absolute cinema! Brilliant direction and mind-bending space exploration.,Sci-Fi,2015,27252451
+10,M2015_03,U010,9,Visually stunning sci-fi with incredible time travel mechanics.,Sci-Fi,2015,27252451
+11,M2015_03,U011,9,"Mind-bending sci-fi with spaceships, time travel, and alien worlds.",Sci-Fi,2015,27252451
+12,M2015_03,U012,7,Decent visual effects though slightly complex to follow.,Sci-Fi,2015,27252451
+13,M2015_04,U013,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2015,24755144
+14,M2015_04,U014,9,Spectacular soundtrack and breathtaking action sequences.,Action,2015,24755144
+15,M2015_04,U015,8,Gripping heist storyline and solid pacing throughout.,Action,2015,24755144
+16,M2015_04,U016,6,Decent stuntwork but formulaic screenplay.,Action,2015,24755144
+17,M2015_05,U017,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2015,17776778
+18,M2015_05,U018,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2015,17776778
+19,M2015_05,U019,8,"Good plot, strong performances, and solid pacing.",Drama,2015,17776778
+20,M2015_05,U020,7,"Touching story, though somewhat slow in the second act.",Drama,2015,17776778
+21,M2016_01,U021,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2016,25213575
+22,M2016_01,U022,9,Spectacular soundtrack and breathtaking action sequences.,Action,2016,25213575
+23,M2016_01,U023,8,Gripping heist storyline and solid pacing throughout.,Action,2016,25213575
+24,M2016_01,U024,6,Decent stuntwork but formulaic screenplay.,Action,2016,25213575
+25,M2016_02,U025,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2016,19168106
+26,M2016_02,U026,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2016,19168106
+27,M2016_02,U027,8,"Good plot, strong performances, and solid pacing.",Drama,2016,19168106
+28,M2016_02,U028,7,"Touching story, though somewhat slow in the second act.",Drama,2016,19168106
+29,M2016_03,U029,9,Intense murder mystery with psychological suspense and a shocking twist.,Thriller,2016,16992632
+30,M2016_03,U030,8,Solid mystery with a twist that kept me guessing.,Thriller,2016,16992632
+31,M2016_03,U031,8,Crisp cinematography and great character development.,Thriller,2016,16992632
+32,M2016_03,U032,5,Promising concept ruined by terrible pacing.,Thriller,2016,16992632
+33,M2016_04,U033,9,"Hilarious jokes, laugh-out-loud humor, and witty comic timing.",Comedy,2016,16244492
+34,M2016_04,U034,8,Great humor and charming chemistry between leads.,Comedy,2016,16244492
+35,M2016_04,U035,7,Average film. Enjoyable enough for a casual weekend watch.,Comedy,2016,16244492
+36,M2016_04,U036,5,A few funny moments but overall disappointing sequel.,Comedy,2016,16244492
+37,M2016_05,U037,8,Genuinely chilling atmosphere and effective jump scares.,Horror,2016,11914947
+38,M2016_05,U038,7,Creepy monster design and solid sound design.,Horror,2016,11914947
+39,M2016_05,U039,4,Boring storyline and uninspired acting throughout.,Horror,2016,11914947
+40,M2016_05,U040,3,Terrible script and unconvincing characters.,Horror,2016,11914947
+41,M2017_01,U041,9,"Hilarious jokes, laugh-out-loud humor, and witty comic timing.",Comedy,2017,17619141
+42,M2017_01,U042,8,Great humor and charming chemistry between leads.,Comedy,2017,17619141
+43,M2017_01,U043,7,Average film. Enjoyable enough for a casual weekend watch.,Comedy,2017,17619141
+44,M2017_01,U044,5,A few funny moments but overall disappointing sequel.,Comedy,2017,17619141
+45,M2017_02,U045,8,Genuinely chilling atmosphere and effective jump scares.,Horror,2017,14753292
+46,M2017_02,U046,7,Creepy monster design and solid sound design.,Horror,2017,14753292
+47,M2017_02,U047,4,Boring storyline and uninspired acting throughout.,Horror,2017,14753292
+48,M2017_02,U048,3,Terrible script and unconvincing characters.,Horror,2017,14753292
+49,M2017_03,U049,9,Heartwarming romance with tender love and undeniable chemistry.,Romance,2017,17071036
+50,M2017_03,U050,8,Charming performances and gorgeous Italian scenery.,Romance,2017,17071036
+51,M2017_03,U051,7,"Decent romantic watch, though slightly predictable ending.",Romance,2017,17071036
+52,M2017_03,U052,5,Waste of time. Disappointing love story that lacks soul.,Romance,2017,17071036
+53,M2017_04,U053,9,Whimsical animated adventure with colorful illustrations and charming voice acting.,Animation,2017,25343716
+54,M2017_04,U054,8,Fun family entertainment with a heartwarming message.,Animation,2017,25343716
+55,M2017_04,U055,8,Stunning CGI visuals and memorable music.,Animation,2017,25343716
+56,M2017_04,U056,7,Enjoyable animation for kids and adults alike.,Animation,2017,25343716
+57,M2017_05,U057,10,Absolute cinema! Brilliant direction and mind-bending space exploration.,Sci-Fi,2017,30382323
+58,M2017_05,U058,9,Visually stunning sci-fi with incredible time travel mechanics.,Sci-Fi,2017,30382323
+59,M2017_05,U059,9,"Mind-bending sci-fi with spaceships, time travel, and alien worlds.",Sci-Fi,2017,30382323
+60,M2017_05,U060,7,Decent visual effects though slightly complex to follow.,Sci-Fi,2017,30382323
+61,M2018_01,U061,9,Whimsical animated adventure with colorful illustrations and charming voice acting.,Animation,2018,26938352
+62,M2018_01,U062,8,Fun family entertainment with a heartwarming message.,Animation,2018,26938352
+63,M2018_01,U063,8,Stunning CGI visuals and memorable music.,Animation,2018,26938352
+64,M2018_01,U064,7,Enjoyable animation for kids and adults alike.,Animation,2018,26938352
+65,M2018_02,U065,10,Absolute cinema! Brilliant direction and mind-bending space exploration.,Sci-Fi,2018,32584834
+66,M2018_02,U066,9,Visually stunning sci-fi with incredible time travel mechanics.,Sci-Fi,2018,32584834
+67,M2018_02,U067,9,"Mind-bending sci-fi with spaceships, time travel, and alien worlds.",Sci-Fi,2018,32584834
+68,M2018_02,U068,7,Decent visual effects though slightly complex to follow.,Sci-Fi,2018,32584834
+69,M2018_03,U069,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2018,27766653
+70,M2018_03,U070,9,Spectacular soundtrack and breathtaking action sequences.,Action,2018,27766653
+71,M2018_03,U071,8,Gripping heist storyline and solid pacing throughout.,Action,2018,27766653
+72,M2018_03,U072,6,Decent stuntwork but formulaic screenplay.,Action,2018,27766653
+73,M2018_04,U073,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2018,21762489
+74,M2018_04,U074,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2018,21762489
+75,M2018_04,U075,8,"Good plot, strong performances, and solid pacing.",Drama,2018,21762489
+76,M2018_04,U076,7,"Touching story, though somewhat slow in the second act.",Drama,2018,21762489
+77,M2018_05,U077,9,Intense murder mystery with psychological suspense and a shocking twist.,Thriller,2018,19896493
+78,M2018_05,U078,8,Solid mystery with a twist that kept me guessing.,Thriller,2018,19896493
+79,M2018_05,U079,8,Crisp cinematography and great character development.,Thriller,2018,19896493
+80,M2018_05,U080,5,Promising concept ruined by terrible pacing.,Thriller,2018,19896493
+81,M2019_01,U081,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2019,23658517
+82,M2019_01,U082,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2019,23658517
+83,M2019_01,U083,8,"Good plot, strong performances, and solid pacing.",Drama,2019,23658517
+84,M2019_01,U084,7,"Touching story, though somewhat slow in the second act.",Drama,2019,23658517
+85,M2019_02,U085,9,Intense murder mystery with psychological suspense and a shocking twist.,Thriller,2019,21687925
+86,M2019_02,U086,8,Solid mystery with a twist that kept me guessing.,Thriller,2019,21687925
+87,M2019_02,U087,8,Crisp cinematography and great character development.,Thriller,2019,21687925
+88,M2019_02,U088,5,Promising concept ruined by terrible pacing.,Thriller,2019,21687925
+89,M2019_03,U089,9,"Hilarious jokes, laugh-out-loud humor, and witty comic timing.",Comedy,2019,20259806
+90,M2019_03,U090,8,Great humor and charming chemistry between leads.,Comedy,2019,20259806
+91,M2019_03,U091,7,Average film. Enjoyable enough for a casual weekend watch.,Comedy,2019,20259806
+92,M2019_03,U092,5,A few funny moments but overall disappointing sequel.,Comedy,2019,20259806
+93,M2019_04,U093,8,Genuinely chilling atmosphere and effective jump scares.,Horror,2019,17462524
+94,M2019_04,U094,7,Creepy monster design and solid sound design.,Horror,2019,17462524
+95,M2019_04,U095,4,Boring storyline and uninspired acting throughout.,Horror,2019,17462524
+96,M2019_04,U096,3,Terrible script and unconvincing characters.,Horror,2019,17462524
+97,M2019_05,U097,9,Heartwarming romance with tender love and undeniable chemistry.,Romance,2019,18255649
+98,M2019_05,U098,8,Charming performances and gorgeous Italian scenery.,Romance,2019,18255649
+99,M2019_05,U099,7,"Decent romantic watch, though slightly predictable ending.",Romance,2019,18255649
+100,M2019_05,U100,5,Waste of time. Disappointing love story that lacks soul.,Romance,2019,18255649
+101,M2020_01,U101,8,Genuinely chilling atmosphere and effective jump scares.,Horror,2020,18877016
+102,M2020_01,U102,7,Creepy monster design and solid sound design.,Horror,2020,18877016
+103,M2020_01,U103,4,Boring storyline and uninspired acting throughout.,Horror,2020,18877016
+104,M2020_01,U104,3,Terrible script and unconvincing characters.,Horror,2020,18877016
+105,M2020_02,U105,9,Heartwarming romance with tender love and undeniable chemistry.,Romance,2020,20116992
+106,M2020_02,U106,8,Charming performances and gorgeous Italian scenery.,Romance,2020,20116992
+107,M2020_02,U107,7,"Decent romantic watch, though slightly predictable ending.",Romance,2020,20116992
+108,M2020_02,U108,5,Waste of time. Disappointing love story that lacks soul.,Romance,2020,20116992
+109,M2020_03,U109,9,Whimsical animated adventure with colorful illustrations and charming voice acting.,Animation,2020,30201601
+110,M2020_03,U110,8,Fun family entertainment with a heartwarming message.,Animation,2020,30201601
+111,M2020_03,U111,8,Stunning CGI visuals and memorable music.,Animation,2020,30201601
+112,M2020_03,U112,7,Enjoyable animation for kids and adults alike.,Animation,2020,30201601
+113,M2020_04,U113,10,Absolute cinema! Brilliant direction and mind-bending space exploration.,Sci-Fi,2020,36062906
+114,M2020_04,U114,9,Visually stunning sci-fi with incredible time travel mechanics.,Sci-Fi,2020,36062906
+115,M2020_04,U115,9,"Mind-bending sci-fi with spaceships, time travel, and alien worlds.",Sci-Fi,2020,36062906
+116,M2020_04,U116,7,Decent visual effects though slightly complex to follow.,Sci-Fi,2020,36062906
+117,M2020_05,U117,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2020,32170785
+118,M2020_05,U118,9,Spectacular soundtrack and breathtaking action sequences.,Action,2020,32170785
+119,M2020_05,U119,8,Gripping heist storyline and solid pacing throughout.,Action,2020,32170785
+120,M2020_05,U120,6,Decent stuntwork but formulaic screenplay.,Action,2020,32170785
+121,M2021_01,U121,10,Absolute cinema! Brilliant direction and mind-bending space exploration.,Sci-Fi,2021,37342825
+122,M2021_01,U122,9,Visually stunning sci-fi with incredible time travel mechanics.,Sci-Fi,2021,37342825
+123,M2021_01,U123,9,"Mind-bending sci-fi with spaceships, time travel, and alien worlds.",Sci-Fi,2021,37342825
+124,M2021_01,U124,7,Decent visual effects though slightly complex to follow.,Sci-Fi,2021,37342825
+125,M2021_02,U125,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2021,33079796
+126,M2021_02,U126,9,Spectacular soundtrack and breathtaking action sequences.,Action,2021,33079796
+127,M2021_02,U127,8,Gripping heist storyline and solid pacing throughout.,Action,2021,33079796
+128,M2021_02,U128,6,Decent stuntwork but formulaic screenplay.,Action,2021,33079796
+129,M2021_03,U129,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2021,26662297
+130,M2021_03,U130,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2021,26662297
+131,M2021_03,U131,8,"Good plot, strong performances, and solid pacing.",Drama,2021,26662297
+132,M2021_03,U132,7,"Touching story, though somewhat slow in the second act.",Drama,2021,26662297
+133,M2021_04,U133,9,Intense murder mystery with psychological suspense and a shocking twist.,Thriller,2021,25142059
+134,M2021_04,U134,8,Solid mystery with a twist that kept me guessing.,Thriller,2021,25142059
+135,M2021_04,U135,8,Crisp cinematography and great character development.,Thriller,2021,25142059
+136,M2021_04,U136,5,Promising concept ruined by terrible pacing.,Thriller,2021,25142059
+137,M2021_05,U137,9,"Hilarious jokes, laugh-out-loud humor, and witty comic timing.",Comedy,2021,23435779
+138,M2021_05,U138,8,Great humor and charming chemistry between leads.,Comedy,2021,23435779
+139,M2021_05,U139,7,Average film. Enjoyable enough for a casual weekend watch.,Comedy,2021,23435779
+140,M2021_05,U140,5,A few funny moments but overall disappointing sequel.,Comedy,2021,23435779
+141,M2022_01,U141,9,Intense murder mystery with psychological suspense and a shocking twist.,Thriller,2022,26283408
+142,M2022_01,U142,8,Solid mystery with a twist that kept me guessing.,Thriller,2022,26283408
+143,M2022_01,U143,8,Crisp cinematography and great character development.,Thriller,2022,26283408
+144,M2022_01,U144,5,Promising concept ruined by terrible pacing.,Thriller,2022,26283408
+145,M2022_02,U145,9,"Hilarious jokes, laugh-out-loud humor, and witty comic timing.",Comedy,2022,25397498
+146,M2022_02,U146,8,Great humor and charming chemistry between leads.,Comedy,2022,25397498
+147,M2022_02,U147,7,Average film. Enjoyable enough for a casual weekend watch.,Comedy,2022,25397498
+148,M2022_02,U148,5,A few funny moments but overall disappointing sequel.,Comedy,2022,25397498
+149,M2022_03,U149,8,Genuinely chilling atmosphere and effective jump scares.,Horror,2022,22523054
+150,M2022_03,U150,7,Creepy monster design and solid sound design.,Horror,2022,22523054
+151,M2022_03,U151,4,Boring storyline and uninspired acting throughout.,Horror,2022,22523054
+152,M2022_03,U152,3,Terrible script and unconvincing characters.,Horror,2022,22523054
+153,M2022_04,U153,9,Heartwarming romance with tender love and undeniable chemistry.,Romance,2022,22713628
+154,M2022_04,U154,8,Charming performances and gorgeous Italian scenery.,Romance,2022,22713628
+155,M2022_04,U155,7,"Decent romantic watch, though slightly predictable ending.",Romance,2022,22713628
+156,M2022_04,U156,5,Waste of time. Disappointing love story that lacks soul.,Romance,2022,22713628
+157,M2022_05,U157,9,Whimsical animated adventure with colorful illustrations and charming voice acting.,Animation,2022,33291334
+158,M2022_05,U158,8,Fun family entertainment with a heartwarming message.,Animation,2022,33291334
+159,M2022_05,U159,8,Stunning CGI visuals and memorable music.,Animation,2022,33291334
+160,M2022_05,U160,7,Enjoyable animation for kids and adults alike.,Animation,2022,33291334
+161,M2023_01,U161,9,Heartwarming romance with tender love and undeniable chemistry.,Romance,2023,25889925
+162,M2023_01,U162,8,Charming performances and gorgeous Italian scenery.,Romance,2023,25889925
+163,M2023_01,U163,7,"Decent romantic watch, though slightly predictable ending.",Romance,2023,25889925
+164,M2023_01,U164,5,Waste of time. Disappointing love story that lacks soul.,Romance,2023,25889925
+165,M2023_02,U165,9,Whimsical animated adventure with colorful illustrations and charming voice acting.,Animation,2023,33534829
+166,M2023_02,U166,8,Fun family entertainment with a heartwarming message.,Animation,2023,33534829
+167,M2023_02,U167,8,Stunning CGI visuals and memorable music.,Animation,2023,33534829
+168,M2023_02,U168,7,Enjoyable animation for kids and adults alike.,Animation,2023,33534829
+169,M2023_03,U169,10,Absolute cinema! Brilliant direction and mind-bending space exploration.,Sci-Fi,2023,40664104
+170,M2023_03,U170,9,Visually stunning sci-fi with incredible time travel mechanics.,Sci-Fi,2023,40664104
+171,M2023_03,U171,9,"Mind-bending sci-fi with spaceships, time travel, and alien worlds.",Sci-Fi,2023,40664104
+172,M2023_03,U172,7,Decent visual effects though slightly complex to follow.,Sci-Fi,2023,40664104
+173,M2023_04,U173,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2023,36086286
+174,M2023_04,U174,9,Spectacular soundtrack and breathtaking action sequences.,Action,2023,36086286
+175,M2023_04,U175,8,Gripping heist storyline and solid pacing throughout.,Action,2023,36086286
+176,M2023_04,U176,6,Decent stuntwork but formulaic screenplay.,Action,2023,36086286
+177,M2023_05,U177,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2023,29913557
+178,M2023_05,U178,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2023,29913557
+179,M2023_05,U179,8,"Good plot, strong performances, and solid pacing.",Drama,2023,29913557
+180,M2023_05,U180,7,"Touching story, though somewhat slow in the second act.",Drama,2023,29913557
+181,M2024_01,U181,9,"High-octane car chases, explosive combat, and thrilling martial arts stunts!",Action,2024,37282738
+182,M2024_01,U182,9,Spectacular soundtrack and breathtaking action sequences.,Action,2024,37282738
+183,M2024_01,U183,8,Gripping heist storyline and solid pacing throughout.,Action,2024,37282738
+184,M2024_01,U184,6,Decent stuntwork but formulaic screenplay.,Action,2024,37282738
+185,M2024_02,U185,10,Masterpiece! A timeless classic with unforgettable performances.,Drama,2024,31026064
+186,M2024_02,U186,9,Heartwarming drama with memorable characters and deep emotion.,Drama,2024,31026064
+187,M2024_02,U187,8,"Good plot, strong performances, and solid pacing.",Drama,2024,31026064
+188,M2024_02,U188,7,"Touching story, though somewhat slow in the second act.",Drama,2024,31026064
+189,M2024_03,U189,9,Intense murder mystery with psychological suspense and a shocking twist.,Thriller,2024,29151545
+190,M2024_03,U190,8,Solid mystery with a twist that kept me guessing.,Thriller,2024,29151545
+191,M2024_03,U191,8,Crisp cinematography and great character development.,Thriller,2024,29151545
+192,M2024_03,U192,5,Promising concept ruined by terrible pacing.,Thriller,2024,29151545
+193,M2024_04,U193,9,"Hilarious jokes, laugh-out-loud humor, and witty comic timing.",Comedy,2024,28301163
+194,M2024_04,U194,8,Great humor and charming chemistry between leads.,Comedy,2024,28301163
+195,M2024_04,U195,7,Average film. Enjoyable enough for a casual weekend watch.,Comedy,2024,28301163
+196,M2024_04,U196,5,A few funny moments but overall disappointing sequel.,Comedy,2024,28301163
+197,M2024_05,U197,8,Genuinely chilling atmosphere and effective jump scares.,Horror,2024,24405889
+198,M2024_05,U198,7,Creepy monster design and solid sound design.,Horror,2024,24405889
+199,M2024_05,U199,4,Boring storyline and uninspired acting throughout.,Horror,2024,24405889
+200,M2024_05,U200,3,Terrible script and unconvincing characters.,Horror,2024,24405889
